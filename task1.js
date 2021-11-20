@@ -1,4 +1,6 @@
+import reverse from 'reverse-string';
+
 process.stdin.on('data', data => {
-    let reversedStr = data.toString().split('').reverse().join('');
+    let reversedStr = reverse(data.toString());
     process.stdout.write(reversedStr + '\n');
 });
