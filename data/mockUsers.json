@@ -1,0 +1,21 @@
+[{
+    "id":1,
+    "login":"Tom",
+    "password": "pass",
+    "age":24,
+    "isDeleted": false
+},
+{
+    "id":2,
+    "login":"Bob",
+    "password": "pass",
+    "age":27,
+    "isDeleted": true
+},
+{
+    "id":3,
+    "login":"Alice",
+    "password": "pass",
+    "age":"23",
+    "isDeleted": false
+}]
