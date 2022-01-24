@@ -4,6 +4,15 @@ const router = express.Router();
 const fs = require('fs');
 const userSchema = require('./schema/user.js');
 const validateSchema = require('./validators/schemaValidator.js');
+const winston = require('winston');
+
+
+const logger = winston.createLogger({
+    transports: [
+        new winston.transports.Console()
+    ]
+});
+
 
 const users = JSON.parse(fs.readFileSync('./data/mockUsers.json', 'utf8'));
 
@@ -13,6 +22,13 @@ const server = app.listen(3000, () => {
 
 app.use(express.json());
 
+var myLogger = function (req, res, next) {
+    console.info(req.method, req.path, req.params, req.query);
+    next();
+}
+  
+app.use(myLogger);
+
 router.param('id', (req, res, next, id) => {
     let user = users.find(user => user.id == id);
 
@@ -20,8 +36,10 @@ router.param('id', (req, res, next, id) => {
         req.user = user;
         next();
     } else {
-        let error = new Error("There is no user with such id");
+        let errorMessage = "There is no user with such id";
+        let error = new Error(errorMessage);
         error.httpStatusCode = 404;
+        logger.error("Status code: " + 404 + "; Args: " + require('util').inspect(req.params) + "; Message: " + errorMessage);
         next(error);
     }
 
@@ -77,5 +95,6 @@ router.route('/users')
 app.use('/api/', router);
 
 app.use((err, req, res, next) => {
+    logger.error("Status code: " + err.httpStatusCode + "; Message: " + err.message);
     res.status(err.httpStatusCode || 500).json( {error: err.message} );
 });
