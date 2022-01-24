@@ -16,7 +16,8 @@
     "express": "^4.17.1",
     "joi": "^17.5.0",
     "nodemon": "^2.0.15",
-    "reverse-string": "0.0.6"
+    "reverse-string": "0.0.6",
+    "winston": "^3.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
